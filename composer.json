@@ -1,0 +1,17 @@
+{
+    "name": "vogaeael/multiple-choice-question-console",
+    "description": "A php script to load questions with answers from a file to create a multiple choice questions for the console.",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Vogaeael\\MultipleChoiceQuestionConsole\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Michael Vogel",
+            "email": "michael-b-g-vogel@gmx.de"
+        }
+    ],
+    "require": {}
+}
