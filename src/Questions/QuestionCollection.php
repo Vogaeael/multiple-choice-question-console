@@ -2,6 +2,8 @@
 
 namespace Vogaeael\MultipleChoiceQuestionConsole\Questions;
 
+use Exception;
+
 class QuestionCollection
 {
     /** @var Question[] $questions */

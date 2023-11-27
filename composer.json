@@ -13,5 +13,8 @@
             "email": "michael-b-g-vogel@gmx.de"
         }
     ],
-    "require": {}
+    "require": {
+      "ext-readline": "*",
+      "ext-mbstring": "*"
+    }
 }
