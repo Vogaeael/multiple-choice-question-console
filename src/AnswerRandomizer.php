@@ -44,6 +44,11 @@ class AnswerRandomizer
             $currentKey++;
         }
 
+        if (empty($rightAnswerKey)) {
+            $rightAnswerKey = $this->alphabet[$currentKey];
+            $answers[$rightAnswerKey] = $question->getRightAnswer();
+        }
+
         return [
             'answers' => $answers,
             'rightAnswerKey' => $rightAnswerKey,
