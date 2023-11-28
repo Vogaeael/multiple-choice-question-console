@@ -49,14 +49,15 @@ class QuizCarousel
                 return true;
             }
             if (!in_array($answer, $possibleAnswerKeys)) {
-                echo sprintf('`%s` is not one of the possible answers %s \n', $answer, implode(', ', $possibleAnswerKeys));
+                echo sprintf('`%s` is not one of the possible answers %s%s', $answer, implode(', ', $possibleAnswerKeys), PHP_EOL);
                 continue;
             }
             $finishedQuestion = true;
             if ($answer === $possibleAnswersWrapper['rightAnswerKey']) {
-                echo 'That is right!!' . PHP_EOL;
+                echo "\033[0;32mThat is right!! \033[0m" . PHP_EOL . PHP_EOL;
+                continue;
             }
-            echo sprintf('That is wrong!! The correct answer would be %s', $possibleAnswersWrapper['rightAnswerKey']);
+            echo sprintf("\033[0;31mThat is wrong!! The correct answer would be %s", $possibleAnswersWrapper['rightAnswerKey']) . "\033[0m" . PHP_EOL . PHP_EOL;
         } while(!$finishedQuestion);
 
         return false;
@@ -64,7 +65,7 @@ class QuizCarousel
 
     private function askQuestion(Question $question): void
     {
-        echo $question->getQuestion() . PHP_EOL;
+        echo sprintf("\033[1;33m%s\033[0m%s", $question->getQuestion(), PHP_EOL);
     }
 
     private function printPossibleAnswers(array $answers): void
