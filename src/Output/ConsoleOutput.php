@@ -6,6 +6,10 @@ use Vogaeael\MultipleChoiceQuestionConsole\Output\OutputInterface;
 
 class ConsoleOutput implements OutputInterface
 {
+    private const DEFAULT = "\033[0m";
+    private const RED = "\033[0;31m";
+    private const GREEN = "\033[0;32m";
+    private const YELLOW = "\033[1;33m";
 
     /**
      * @inheritDoc
@@ -22,7 +26,7 @@ class ConsoleOutput implements OutputInterface
      */
     public function printQuestion(string $question): void
     {
-        echo sprintf("\033[1;33m%s\033[0m%s", $question, PHP_EOL);
+        echo sprintf('%s%s%s%s', self::YELLOW, $question, self::DEFAULT, PHP_EOL);
     }
 
     /**
@@ -38,7 +42,7 @@ class ConsoleOutput implements OutputInterface
      */
     public function printIsCorrectAnswer(): void
     {
-        echo "\033[0;32mThat is right!! \033[0m" . PHP_EOL . PHP_EOL;
+        echo sprintf('%sThat is right!!%s%s%s', self::GREEN, self::DEFAULT, PHP_EOL, PHP_EOL);
     }
 
     /**
@@ -46,6 +50,6 @@ class ConsoleOutput implements OutputInterface
      */
     public function printIsWrongAnswer(string $rightAnswerKey, string $rightAnswer): void
     {
-        echo sprintf("\033[0;31mThat is wrong!! The correct answer would be %s", $rightAnswerKey) . "\033[0m" . PHP_EOL . PHP_EOL;
+        echo sprintf('%sThat is wrong!! The correct answer woudl be %s%s%s%s', self::RED, $rightAnswerKey, self::DEFAULT, PHP_EOL, PHP_EOL);
     }
 }
