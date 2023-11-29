@@ -4,30 +4,34 @@ namespace Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader;
 
 
 use Exception;
+use Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader\Normalizer\QuestionNormalizerInterface;
 use Vogaeael\MultipleChoiceQuestionConsole\Questions\QuestionCollection;
 use Vogaeael\MultipleChoiceQuestionConsole\Questions\QuestionCollectionFactory;
 use Vogaeael\MultipleChoiceQuestionConsole\Questions\QuestionFactory;
 
-class JsonFileQuestionLoader implements QuestionLoaderInterface
+class FileQuestionLoader implements QuestionLoaderInterface
 {
-    private const QUESTION_KEY_QUESTION_TEXT = 'questionText';
-    private const QUESTION_KEY_WRONG_ANSWERS = 'wrongAnswers';
-    private const QUESTION_KEY_RIGHT_ANSWER = 'rightAnswer';
-    private const REQUIRED_KEYS = [
+    protected const QUESTION_KEY_QUESTION_TEXT = 'questionText';
+    protected const QUESTION_KEY_WRONG_ANSWERS = 'wrongAnswers';
+    protected const QUESTION_KEY_RIGHT_ANSWER = 'rightAnswer';
+    protected const REQUIRED_KEYS = [
         self::QUESTION_KEY_QUESTION_TEXT,
         self::QUESTION_KEY_WRONG_ANSWERS,
         self::QUESTION_KEY_RIGHT_ANSWER
     ];
 
-    private QuestionCollectionFactory $questionCollectionFactory;
-    private QuestionFactory $questionFactory;
+    protected QuestionCollectionFactory $questionCollectionFactory;
+    protected QuestionFactory $questionFactory;
+    protected QuestionNormalizerInterface $normalizer;
 
     public function __construct(
         QuestionCollectionFactory $questionCollectionFactory,
         QuestionFactory $questionFactory,
+        QuestionNormalizerInterface $normalizer
     ) {
         $this->questionCollectionFactory = $questionCollectionFactory;
         $this->questionFactory = $questionFactory;
+        $this->normalizer = $normalizer;
     }
 
     /**
@@ -44,7 +48,7 @@ class JsonFileQuestionLoader implements QuestionLoaderInterface
     /**
      * @throws Exception
      */
-    private function validateFileExistAndReadable(string $path): void
+    protected function validateFileExistAndReadable(string $path): void
     {
         if (!file_exists($path)) {
             throw new Exception(sprintf('File `%s` does not exist', $path));
@@ -57,17 +61,17 @@ class JsonFileQuestionLoader implements QuestionLoaderInterface
         }
     }
 
-    private function getContent(string $path): array
+    protected function getContent(string $path): array
     {
         $content = file_get_contents($path);
 
-        return json_decode($content, true);
+        return $this->normalizer->normalize($content);
     }
 
     /**
      * @throws Exception
      */
-    private function transformToQuestions(array $questionsArray): QuestionCollection {
+    protected function transformToQuestions(array $questionsArray): QuestionCollection {
         if (!array_key_exists('questions', $questionsArray)) {
             throw new Exception('input file has not entry `questions`');
         }
@@ -77,9 +81,13 @@ class JsonFileQuestionLoader implements QuestionLoaderInterface
         foreach ($questionsArray as $questionArray) {
             try {
                 $this->validateArrayKeys($questionArray);
+                $wrongAnswers = $questionArray[self::QUESTION_KEY_WRONG_ANSWERS];
+                if (!is_array($wrongAnswers)) {
+                    $wrongAnswers = [$wrongAnswers];
+                }
                 $question = $this->questionFactory->create(
                     $questionArray[self::QUESTION_KEY_QUESTION_TEXT],
-                    $questionArray[self::QUESTION_KEY_WRONG_ANSWERS],
+                    $wrongAnswers,
                     $questionArray[self::QUESTION_KEY_RIGHT_ANSWER]
                 );
                 $questions->add($question);
@@ -95,7 +103,7 @@ class JsonFileQuestionLoader implements QuestionLoaderInterface
     /**
      * @throws Exception
      */
-    private function validateArrayKeys(array $questionArray): void
+    protected function validateArrayKeys(array $questionArray): void
     {
         foreach(self::REQUIRED_KEYS as $requiredKey) {
             $this->validateArrayForKey($questionArray, $requiredKey);
@@ -105,7 +113,7 @@ class JsonFileQuestionLoader implements QuestionLoaderInterface
     /**
      * @throws Exception
      */
-    private function validateArrayForKey(array $questionArray, string $key): void
+    protected function validateArrayForKey(array $questionArray, string $key): void
     {
         if (!array_key_exists($key, $questionArray)) {
             throw new Exception(sprintf('Array has not the key %s', $key));
