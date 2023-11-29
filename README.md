@@ -9,9 +9,6 @@ An algorithm to more often bring up wrong answered questions.
 ### Add Logging
 Add correct logging instead of only echo
 
-### Add output and input
-Add seperated output and input instead classes
-
 ### Max Answers
 A variable which defines how many answers should be printed max. The taken answers should be random but obviously with the right one in it.
 
