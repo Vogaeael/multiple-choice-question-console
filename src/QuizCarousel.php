@@ -3,6 +3,7 @@
 namespace Vogaeael\MultipleChoiceQuestionConsole;
 
 use Exception;
+use Vogaeael\MultipleChoiceQuestionConsole\Output\OutputInterface;
 use Vogaeael\MultipleChoiceQuestionConsole\Questions\Question;
 use Vogaeael\MultipleChoiceQuestionConsole\Questions\QuestionCollection;
 
@@ -11,12 +12,15 @@ class QuizCarousel
     private const EXIT_KEY = 'exit';
 
     private AnswerRandomizer $answerRandomizer;
+    private OutputInterface $output;
     private QuestionCollection $questions;
 
     public function __construct(
-        AnswerRandomizer $answerRandomizer
+        AnswerRandomizer $answerRandomizer,
+        OutputInterface $output
     ) {
         $this->answerRandomizer = $answerRandomizer;
+        $this->output = $output;
     }
 
     /**
@@ -37,11 +41,11 @@ class QuizCarousel
     private function doCurrentQuestion(): bool
     {
         $currentQuestion = $this->questions->getRandom();
-        $this->askQuestion($currentQuestion);
+        $this->output->printQuestion($currentQuestion->getQuestion());
         $possibleAnswersWrapper = $this->answerRandomizer->randomizeAnswers($currentQuestion);
         $possibleAnswers = $possibleAnswersWrapper['answers'];
         $possibleAnswerKeys = array_keys($possibleAnswers);
-        $this->printPossibleAnswers($possibleAnswers);
+        $this->output->printPossibleAnswers($possibleAnswers);
         do {
             $finishedQuestion = false;
             $answer = $this->getResponse('Your Answer: ');
@@ -49,30 +53,19 @@ class QuizCarousel
                 return true;
             }
             if (!in_array($answer, $possibleAnswerKeys)) {
-                echo sprintf('`%s` is not one of the possible answers %s%s', $answer, implode(', ', $possibleAnswerKeys), PHP_EOL);
+                $this->output->printNotPossibleAnswer($answer, $possibleAnswers);
                 continue;
             }
             $finishedQuestion = true;
-            if ($answer === $possibleAnswersWrapper['rightAnswerKey']) {
-                echo "\033[0;32mThat is right!! \033[0m" . PHP_EOL . PHP_EOL;
+            $rightAnswerKey = $possibleAnswersWrapper['rightAnswerKey'];
+            if ($answer === $rightAnswerKey) {
+                $this->output->printIsCorrectAnswer();
                 continue;
             }
-            echo sprintf("\033[0;31mThat is wrong!! The correct answer would be %s", $possibleAnswersWrapper['rightAnswerKey']) . "\033[0m" . PHP_EOL . PHP_EOL;
+            $this->output->printIsWrongAnswer($rightAnswerKey, $possibleAnswers[$rightAnswerKey]);
         } while(!$finishedQuestion);
 
         return false;
-    }
-
-    private function askQuestion(Question $question): void
-    {
-        echo sprintf("\033[1;33m%s\033[0m%s", $question->getQuestion(), PHP_EOL);
-    }
-
-    private function printPossibleAnswers(array $answers): void
-    {
-        foreach ($answers as $key => $answer) {
-            echo sprintf('%s: %s', $key, $answer) . PHP_EOL;
-        }
     }
 
     private function getResponse(string $message): string
