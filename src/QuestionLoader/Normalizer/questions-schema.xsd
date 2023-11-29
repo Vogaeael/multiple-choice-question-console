@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<xs:schema attributeFormDefault="unqualified"
+           elementFormDefault="qualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="Questions">
+
+    <xs:element name="questions">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="questions"
+                            maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="questionText"
+                                        type="xs:string"/>
+                            <xs:element name="wrongAnswers"
+                                        type="xs:string"
+                                        maxOccurs="unbounded"/>
+                            <xs:element name="rightAnswer"
+                                        type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>
