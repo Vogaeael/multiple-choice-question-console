@@ -2,8 +2,6 @@
 
 namespace Vogaeael\MultipleChoiceQuestionConsole\Input;
 
-use Vogaeael\MultipleChoiceQuestionConsole\Input\InputInterface;
-
 class ConsoleInput implements InputInterface
 {
 

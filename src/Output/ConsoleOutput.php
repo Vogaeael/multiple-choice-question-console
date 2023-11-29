@@ -2,8 +2,6 @@
 
 namespace Vogaeael\MultipleChoiceQuestionConsole\Output;
 
-use Vogaeael\MultipleChoiceQuestionConsole\Output\OutputInterface;
-
 class ConsoleOutput implements OutputInterface
 {
     private const DEFAULT = "\033[0m";
