@@ -32,4 +32,9 @@ interface OutputInterface
      * Print that it was the wrong answer and what the right answer was
      */
     public function printIsWrongAnswer(string $rightAnswerKey, string $rightAnswer): void;
+
+    /**
+     * Print that we had an error and also the error message
+     */
+    public function error(string $error): void;
 }

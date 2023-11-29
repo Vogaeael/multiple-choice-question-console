@@ -23,5 +23,5 @@ try {
     $questions = $questionsLoader->load($path);
     $quizCarousel->run($questions);
 } catch (Exception $e) {
-    echo $e->getMessage() . PHP_EOL;
+    $consoleOutput->error($e->getMessage());
 }

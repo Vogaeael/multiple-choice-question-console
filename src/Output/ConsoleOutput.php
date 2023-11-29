@@ -50,4 +50,12 @@ class ConsoleOutput implements OutputInterface
     {
         echo sprintf('%sThat is wrong!! The correct answer woudl be %s%s%s%s', self::RED, $rightAnswerKey, self::DEFAULT, PHP_EOL, PHP_EOL);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function error(string $error): void
+    {
+        echo $error . PHP_EOL;
+    }
 }
