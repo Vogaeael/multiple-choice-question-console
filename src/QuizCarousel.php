@@ -3,6 +3,7 @@
 namespace Vogaeael\MultipleChoiceQuestionConsole;
 
 use Exception;
+use Vogaeael\MultipleChoiceQuestionConsole\Input\InputInterface;
 use Vogaeael\MultipleChoiceQuestionConsole\Output\OutputInterface;
 use Vogaeael\MultipleChoiceQuestionConsole\Questions\Question;
 use Vogaeael\MultipleChoiceQuestionConsole\Questions\QuestionCollection;
@@ -13,14 +14,17 @@ class QuizCarousel
 
     private AnswerRandomizer $answerRandomizer;
     private OutputInterface $output;
+    private InputInterface $input;
     private QuestionCollection $questions;
 
     public function __construct(
         AnswerRandomizer $answerRandomizer,
-        OutputInterface $output
+        OutputInterface $output,
+        InputInterface $input
     ) {
         $this->answerRandomizer = $answerRandomizer;
         $this->output = $output;
+        $this->input = $input;
     }
 
     /**
@@ -48,7 +52,7 @@ class QuizCarousel
         $this->output->printPossibleAnswers($possibleAnswers);
         do {
             $finishedQuestion = false;
-            $answer = $this->getResponse('Your Answer: ');
+            $answer = $this->input->getAnswer();
             if ($answer === self::EXIT_KEY) {
                 return true;
             }
@@ -66,10 +70,5 @@ class QuizCarousel
         } while(!$finishedQuestion);
 
         return false;
-    }
-
-    private function getResponse(string $message): string
-    {
-        return mb_strtolower(readline($message));
     }
 }
