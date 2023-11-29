@@ -1,6 +1,6 @@
 <?php
 
-namespace Vogaeael\MultipleChoiceQuestionConsole;
+namespace Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader;
 
 
 use Exception;
@@ -8,7 +8,7 @@ use Vogaeael\MultipleChoiceQuestionConsole\Questions\QuestionCollection;
 use Vogaeael\MultipleChoiceQuestionConsole\Questions\QuestionCollectionFactory;
 use Vogaeael\MultipleChoiceQuestionConsole\Questions\QuestionFactory;
 
-class QuestionLoader
+class JsonFileQuestionLoader implements QuestionLoaderInterface
 {
     private const QUESTION_KEY_QUESTION_TEXT = 'questionText';
     private const QUESTION_KEY_WRONG_ANSWERS = 'wrongAnswers';
