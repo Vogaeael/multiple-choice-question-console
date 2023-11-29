@@ -92,7 +92,7 @@ class FileQuestionLoader implements QuestionLoaderInterface
                 );
                 $questions->add($question);
             } catch (Exception $e) {
-                echo $e->getMessage();
+                echo $e->getMessage() . PHP_EOL;
                 continue;
             }
         }
