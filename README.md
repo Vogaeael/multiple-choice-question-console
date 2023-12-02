@@ -2,6 +2,23 @@
 A php script to load questions with answers from a file to create a multiple choice questions for the console.
 With this project you can learn custom questions in your console.
 
+## Env file
+To use this you have to copy the .env.example into an .env file.
+You have to configure the environment variables.
+
+### INPUT_FILE_PATH
+The `INPUT_FILE_PATH` gives the path to the file with the questions configured. This can look like this
+```
+INPUT_FILE_PATH=var/questions.json
+```
+
+### INPUT_FILE_TYPE
+The `INPUT_FILE_TYPE` defines which type of content the file has. The possible contents are at the moment json and xml.
+So it can look like this:
+```
+INPUT_FILE_TYPE=json
+```
+
 ## Input files
 The files from where the questions are loaded.
 Possible file types are currently json and xml.
