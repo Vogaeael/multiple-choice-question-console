@@ -5,9 +5,9 @@ namespace Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader;
 
 use Exception;
 use Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader\Normalizer\QuestionNormalizerInterface;
-use Vogaeael\MultipleChoiceQuestionConsole\Questions\QuestionCollection;
-use Vogaeael\MultipleChoiceQuestionConsole\Questions\QuestionCollectionFactory;
 use Vogaeael\MultipleChoiceQuestionConsole\Questions\QuestionFactory;
+use Vogaeael\MultipleChoiceQuestionConsole\Questions\QuestionCollection\QuestionCollectionFactory;
+use Vogaeael\MultipleChoiceQuestionConsole\Questions\QuestionCollection\QuestionCollectionInterface;
 
 class FileQuestionLoader implements QuestionLoaderInterface
 {
@@ -20,29 +20,21 @@ class FileQuestionLoader implements QuestionLoaderInterface
         self::QUESTION_KEY_RIGHT_ANSWER
     ];
 
-    protected QuestionCollectionFactory $questionCollectionFactory;
-    protected QuestionFactory $questionFactory;
-    protected QuestionNormalizerInterface $normalizer;
-
     public function __construct(
-        QuestionCollectionFactory $questionCollectionFactory,
-        QuestionFactory $questionFactory,
-        QuestionNormalizerInterface $normalizer
-    ) {
-        $this->questionCollectionFactory = $questionCollectionFactory;
-        $this->questionFactory = $questionFactory;
-        $this->normalizer = $normalizer;
-    }
+        protected readonly QuestionCollectionFactory $questionCollectionFactory,
+        protected readonly QuestionFactory $questionFactory,
+        protected readonly QuestionNormalizerInterface $normalizer
+    ) {}
 
     /**
      * @throws Exception
      */
-    public function load(string $path): QuestionCollection
+    public function load(string $path, string $type): QuestionCollectionInterface
     {
         $this->validateFileExistAndReadable($path);
         $questionsArray = $this->getContent($path);
 
-        return $this->transformToQuestions($questionsArray);
+        return $this->transformToQuestions($questionsArray, $type);
     }
 
     /**
@@ -71,12 +63,12 @@ class FileQuestionLoader implements QuestionLoaderInterface
     /**
      * @throws Exception
      */
-    protected function transformToQuestions(array $questionsArray): QuestionCollection {
+    protected function transformToQuestions(array $questionsArray, string $type): QuestionCollectionInterface {
         if (!array_key_exists('questions', $questionsArray)) {
             throw new Exception('input file has not entry `questions`');
         }
         $questionsArray = $questionsArray['questions'];
-        $questions = $this->questionCollectionFactory->create();
+        $questions = $this->questionCollectionFactory->create($type);
 
         foreach ($questionsArray as $questionArray) {
             try {
