@@ -3,7 +3,7 @@
 namespace Vogaeael\MultipleChoiceQuestionConsole;
 
 use Exception;
-use Vogaeael\MultipleChoiceQuestionConsole\Questions\Question;
+use Vogaeael\MultipleChoiceQuestionConsole\Questions\QuestionInterface;
 
 class AnswerRandomizer
 {
@@ -24,7 +24,7 @@ class AnswerRandomizer
      * @return array{answers: array<string, string>, rightAnswerKey: string}
      * @throws Exception
      */
-    public function randomizeAnswers(Question $question): array
+    public function randomizeAnswers(QuestionInterface $question): array
     {
         $wrongAnswers = $question->getWrongAnswers();
         $wrongAnswersCount = count($wrongAnswers);
