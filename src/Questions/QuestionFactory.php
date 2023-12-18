@@ -8,7 +8,7 @@ class QuestionFactory
         string $question,
         array  $wrongAnswers,
         string $rightAnswer
-    ): Question
+    ): QuestionInterface
     {
         return new Question($question, $wrongAnswers, $rightAnswer);
     }

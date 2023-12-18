@@ -54,6 +54,20 @@ class ConsoleOutput implements OutputInterface
     /**
      * @inheritDoc
      */
+    public function printTotalResult(array $rightAnsweredQuestions, array $wrongAnsweredQuestions): void
+    {
+        $countWrongAnswers = count($wrongAnsweredQuestions);
+        $countAnswers = count($rightAnsweredQuestions) + $countWrongAnswers;
+        $message = sprintf('You have %d from %d questions wrong', $countWrongAnswers, $countAnswers);
+        $upperAndUnderline = str_repeat('=', strlen($message));
+        echo sprintf('%s%s%s', self::YELLOW, $upperAndUnderline, PHP_EOL);
+        echo sprintf('%s%s', $message, PHP_EOL);
+        echo sprintf('%s%s%s', $upperAndUnderline, self::DEFAULT, PHP_EOL);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function error(string $error): void
     {
         echo $error . PHP_EOL;
