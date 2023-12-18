@@ -49,8 +49,12 @@ The xml file should look like this:
 ```
 
 ## Possible improvements
-### More often Failures
-An algorithm to more often bring up wrong answered questions.
+### More reputation algorithm
+#### Less answered question
+Question collection to always give back the question which was less often answered
+
+#### Simple
+Question collection to go always threw the collection without randomizing.
 
 ### Add Logging
 Add correct logging instead of only echo
