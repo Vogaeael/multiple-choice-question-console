@@ -8,8 +8,8 @@ class Question implements QuestionInterface
     /** @var string[] $wrongAnswers */
     private array $wrongAnswers;
     private string $rightAnswer;
-    private int $wrongAnswered;
-    private int $rightAnswered;
+    private int $howOftenWrongAnswered;
+    private int $howOftenRightAnswered;
 
     public function __construct(
         string $question,
@@ -21,8 +21,8 @@ class Question implements QuestionInterface
         $this->question = $question;
         $this->wrongAnswers = $wrongAnswers;
         $this->rightAnswer = $rightAnswer;
-        $this->wrongAnswered = $wrongAnswered;
-        $this->rightAnswered = $rightAnswered;
+        $this->howOftenWrongAnswered = $wrongAnswered;
+        $this->howOftenRightAnswered = $rightAnswered;
     }
 
     /**
@@ -51,25 +51,26 @@ class Question implements QuestionInterface
 
     public function increaseWrongAnswered(): void
     {
-        $this->wrongAnswered++;
+        $this->howOftenWrongAnswered++;
     }
 
     public function increaseRightAnswered(): void
     {
-        $this->rightAnswered++;
+        $this->howOftenRightAnswered++;
     }
 
-    public function getPercentCorrectAnswered(): float
+    public function getHowOftenRightAnswered(): int
     {
-        if (0 === $this->rightAnswered) {
-            return 0;
-        }
+        return $this->howOftenRightAnswered;
+    }
 
-        return ($this->rightAnswered / ($this->rightAnswered + $this->wrongAnswered)) * 100;
+    public function getHowOftenWrongAnswered(): int
+    {
+        return $this->howOftenWrongAnswered;
     }
 
     public function howOftenAnswered(): int
     {
-        return $this->rightAnswered + $this->wrongAnswered;
+        return $this->howOftenRightAnswered + $this->howOftenWrongAnswered;
     }
 }

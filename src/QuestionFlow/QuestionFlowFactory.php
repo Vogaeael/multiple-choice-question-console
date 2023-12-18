@@ -8,10 +8,13 @@ use Vogaeael\MultipleChoiceQuestionConsole\Output\OutputInterface;
 
 class QuestionFlowFactory
 {
+    public const EXAMINATION = 'examination';
+    public const QUIZ_CAROUSEL = 'quiz-carousel';
+
     public function create(string $type, AnswerRandomizer $answerRandomizer, OutputInterface $output, InputInterface $input): QuestionFlowInterface
     {
         return match ($type) {
-            'examination' => new Examination($answerRandomizer, $output, $input),
+            static::EXAMINATION => new Examination($answerRandomizer, $output, $input),
             default => new QuizCarousel($answerRandomizer, $output, $input),
         };
     }

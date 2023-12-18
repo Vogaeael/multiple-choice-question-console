@@ -2,7 +2,7 @@
 
 namespace Vogaeael\MultipleChoiceQuestionConsole\Questions\QuestionCollection;
 
-use Vogaeael\MultipleChoiceQuestionConsole\Questions\QuestionCollection\WrongMoreOften\WrongMoreOften;
+use Vogaeael\MultipleChoiceQuestionConsole\Questions\QuestionCollection\QuestionChangedSubscription\QuestionChangedWrapperFactory;
 
 class QuestionCollectionFactory
 {
@@ -12,7 +12,7 @@ class QuestionCollectionFactory
     {
         return match ($type) {
             self::ALL_ONE_TIME => new AllOneTime(),
-            self::WRONG_MORE_OFTEN => new WrongMoreOften(), // @TODO change
+            self::WRONG_MORE_OFTEN => new WrongMoreOften(new QuestionChangedWrapperFactory()),
             default => new QuestionCollection(),
         };
     }

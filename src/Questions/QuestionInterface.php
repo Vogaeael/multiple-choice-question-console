@@ -23,7 +23,9 @@ interface QuestionInterface
 
     public function increaseRightAnswered(): void;
 
-    public function getPercentCorrectAnswered(): float;
+    public function getHowOftenRightAnswered(): int;
+
+    public function getHowOftenWrongAnswered(): int;
 
     public function howOftenAnswered(): int;
 }

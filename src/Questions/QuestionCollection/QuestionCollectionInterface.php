@@ -10,5 +10,5 @@ interface QuestionCollectionInterface
 
     public function add(QuestionInterface $question): void;
 
-    public function getNext(): ?QuestionInterface;
+    public function getNext(): QuestionInterface;
 }
