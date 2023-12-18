@@ -5,7 +5,7 @@ namespace Vogaeael\MultipleChoiceQuestionConsole\Questions\QuestionCollection;
 use Exception;
 use Vogaeael\MultipleChoiceQuestionConsole\Questions\QuestionInterface;
 
-class SimpleQuestionCollection implements QuestionCollectionInterface
+class SimpleRandomQuestionCollection implements QuestionCollectionInterface
 {
     /** @var QuestionInterface[] $questions */
     private array $questions;
