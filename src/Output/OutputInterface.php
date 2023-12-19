@@ -2,6 +2,7 @@
 
 namespace Vogaeael\MultipleChoiceQuestionConsole\Output;
 
+use Exception;
 use Vogaeael\MultipleChoiceQuestionConsole\Questions\QuestionInterface;
 
 interface OutputInterface
@@ -33,18 +34,18 @@ interface OutputInterface
     /**
      * Print that it was the wrong answer and what the right answer was
      */
-    public function printIsWrongAnswer(string $rightAnswerKey, string $rightAnswer): void;
+    public function printIsWrongAnswer(string $correctAnswerKey, string $correctAnswer): void;
 
     /**
      * Print the total result of right and wrong answered questions.
      *
-     * @param QuestionInterface[] $rightAnsweredQuestions
+     * @param QuestionInterface[] $correctAnsweredQuestions
      * @param QuestionInterface[] $wrongAnsweredQuestions
      */
-    public function printTotalResult(array $rightAnsweredQuestions, array $wrongAnsweredQuestions): void;
+    public function printTotalResult(array $correctAnsweredQuestions, array $wrongAnsweredQuestions): void;
 
     /**
      * Print that we had an error and also the error message
      */
-    public function error(string $error): void;
+    public function error(Exception $exception): void;
 }

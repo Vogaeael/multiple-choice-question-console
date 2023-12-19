@@ -40,24 +40,24 @@ class ConsoleOutput implements OutputInterface
      */
     public function printIsCorrectAnswer(): void
     {
-        echo sprintf('%sThat is right!!%s%s%s', self::GREEN, self::DEFAULT, PHP_EOL, PHP_EOL);
+        echo sprintf('%sThat is correct!!%s%s%s', self::GREEN, self::DEFAULT, PHP_EOL, PHP_EOL);
     }
 
     /**
      * @inheritDoc
      */
-    public function printIsWrongAnswer(string $rightAnswerKey, string $rightAnswer): void
+    public function printIsWrongAnswer(string $correctAnswerKey, string $correctAnswer): void
     {
-        echo sprintf('%sThat is wrong!! The correct answer woudl be %s%s%s%s', self::RED, $rightAnswerKey, self::DEFAULT, PHP_EOL, PHP_EOL);
+        echo sprintf('%sThat is wrong!! The correct answer would be %s%s%s%s', self::RED, $correctAnswerKey, self::DEFAULT, PHP_EOL, PHP_EOL);
     }
 
     /**
      * @inheritDoc
      */
-    public function printTotalResult(array $rightAnsweredQuestions, array $wrongAnsweredQuestions): void
+    public function printTotalResult(array $correctAnsweredQuestions, array $wrongAnsweredQuestions): void
     {
         $countWrongAnswers = count($wrongAnsweredQuestions);
-        $countAnswers = count($rightAnsweredQuestions) + $countWrongAnswers;
+        $countAnswers = count($correctAnsweredQuestions) + $countWrongAnswers;
         $message = sprintf('You have %d from %d questions wrong', $countWrongAnswers, $countAnswers);
         $upperAndUnderline = str_repeat('=', strlen($message));
         echo sprintf('%s%s%s', self::YELLOW, $upperAndUnderline, PHP_EOL);
@@ -68,8 +68,8 @@ class ConsoleOutput implements OutputInterface
     /**
      * @inheritDoc
      */
-    public function error(string $error): void
+    public function error(\Exception $exception): void
     {
-        echo $error . PHP_EOL;
+        echo $exception->getMessage() . PHP_EOL;
     }
 }

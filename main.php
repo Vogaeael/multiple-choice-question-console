@@ -26,5 +26,5 @@ try {
     $questions = $jsonFileQuestionsLoader->load($path, QuestionCollectionFactory::WRONG_MORE_OFTEN);
     $questionFlow->run($questions);
 } catch (Exception $e) {
-    $consoleOutput->error($e->getMessage());
+    $consoleOutput->error($e);
 }

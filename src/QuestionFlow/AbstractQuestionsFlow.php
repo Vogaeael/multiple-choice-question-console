@@ -112,6 +112,6 @@ abstract class AbstractQuestionsFlow implements QuestionFlowInterface
 
     protected function handleCollectionEmptyException(QuestionCollectionEmptyException $exception): void
     {
-        $this->output->error($exception->getMessage());
+        $this->output->error($exception);
     }
 }
