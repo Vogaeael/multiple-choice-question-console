@@ -2,6 +2,14 @@
 A php script to load questions with answers from a file to create a multiple choice questions for the console.
 With this project you can learn custom questions in your console.
 
+## Installment
+
+### Normal use
+You only have to create the files from where the questions are loaded. See [Input files](#input-files)
+
+### Dev installment
+For development you need the normal installment but also you need to run `composer install`
+
 ## Input files
 The files from where the questions are loaded.
 Possible file types are currently json and xml.
@@ -47,6 +55,10 @@ The xml file should look like this:
     </questions>
 </questions>
 ```
+
+## Test
+### Unit test
+When you installed the dev requirements you can run `./vendor/bin/phpunit tests/` to run the unit tests.
 
 ## Possible improvements
 ### More reputation algorithm
