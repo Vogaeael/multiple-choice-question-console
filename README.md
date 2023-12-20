@@ -17,12 +17,12 @@ The json file should look like this:
         "The first wrong answer",
         "The second wrong answer"
       ],
-      "rightAnswer": "The right answer"
+      "correctAnswer": "The correct answer"
     }
     {
       "questionText": "A question with only one wrong answer",
       "wrongAnswers": "The wrong answer",
-      "rightAnswer": "The right answer"
+      "correctAnswer": "The correct answer"
     }
   ]
 }
@@ -38,12 +38,12 @@ The xml file should look like this:
         <questionText>The question itself</questionText>
         <wrongAnswers>The first wrong answer</wrongAnswers>
         <wrongAnswers>The second wrong answer</wrongAnswers>
-        <rightAnswer>The right answer</rightAnswer>
+        <correctAnswer>The correct answer</correctAnswer>
     </questions>
     <questions>
         <questionText>A question with only one wrong answer</questionText>
         <wrongAnswers>wrong answer 2</wrongAnswers>
-        <rightAnswer>right answer 2</rightAnswer>
+        <correctAnswer>correct answer 2</correctAnswer>
     </questions>
 </questions>
 ```
@@ -60,7 +60,7 @@ Question collection to go always threw the collection without randomizing.
 Add correct logging instead of only echo
 
 ### Max Answers
-A variable which defines how many answers should be printed max. The taken answers should be random but obviously with the right one in it.
+A variable which defines how many answers should be printed max. The taken answers should be random but obviously with the correct one in it.
 
 ### Support more input file types
 Support for more input file types besides json. For example xml, yml or plain txt.
