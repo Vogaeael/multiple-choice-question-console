@@ -32,12 +32,12 @@ interface OutputInterface
     public function printIsCorrectAnswer(): void;
 
     /**
-     * Print that it was the wrong answer and what the right answer was
+     * Print that it was the wrong answer and what the correct answer was
      */
     public function printIsWrongAnswer(string $correctAnswerKey, string $correctAnswer): void;
 
     /**
-     * Print the total result of right and wrong answered questions.
+     * Print the total result of correct and wrong answered questions.
      *
      * @param QuestionInterface[] $correctAnsweredQuestions
      * @param QuestionInterface[] $wrongAnsweredQuestions

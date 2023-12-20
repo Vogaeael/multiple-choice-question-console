@@ -31,9 +31,9 @@ class QuestionChangedWrapper implements QuestionInterface
     /**
      * @inheritDoc
      */
-    public function getRightAnswer(): string
+    public function getCorrectAnswer(): string
     {
-        return $this->question->getRightAnswer();
+        return $this->question->getCorrectAnswer();
     }
 
     public function increaseWrongAnswered(): void
@@ -42,15 +42,15 @@ class QuestionChangedWrapper implements QuestionInterface
         $this->subscriber->changed($this);
     }
 
-    public function increaseRightAnswered(): void
+    public function increaseCorrectAnswered(): void
     {
-        $this->question->increaseRightAnswered();
+        $this->question->increaseCorrectAnswered();
         $this->subscriber->changed($this);
     }
 
-    public function getHowOftenRightAnswered(): int
+    public function getHowOftenCorrectAnswered(): int
     {
-        return $this->question->getHowOftenRightAnswered();
+        return $this->question->getHowOftenCorrectAnswered();
     }
 
     public function getHowOftenWrongAnswered(): int

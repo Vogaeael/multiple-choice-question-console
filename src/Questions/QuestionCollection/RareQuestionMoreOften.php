@@ -8,6 +8,6 @@ class RareQuestionMoreOften extends AbstractProbabilityCollection
 {
     protected function calculateProbability(QuestionInterface $question): float
     {
-        return 1 / ($question->getHowOftenRightAnswered() + $question->getHowOftenWrongAnswered());
+        return 1 / ($question->getHowOftenCorrectAnswered() + $question->getHowOftenWrongAnswered());
     }
 }

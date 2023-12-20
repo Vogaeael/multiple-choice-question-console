@@ -8,21 +8,21 @@ use Vogaeael\MultipleChoiceQuestionConsole\Questions\QuestionInterface;
 
 class Examination extends AbstractQuestionsFlow
 {
-    /** @var QuestionInterface[] $rightAnsweredQuestions */
-    protected array $rightAnsweredQuestions = [];
+    /** @var QuestionInterface[] $correctAnsweredQuestions */
+    protected array $correctAnsweredQuestions = [];
     /** @var QuestionInterface[] $wrongAnsweredQuestions */
     protected array $wrongAnsweredQuestions = [];
 
     public function run(QuestionCollectionInterface $questions): void
     {
         parent::run($questions);
-        $this->output->printTotalResult($this->rightAnsweredQuestions, $this->wrongAnsweredQuestions);
+        $this->output->printTotalResult($this->correctAnsweredQuestions, $this->wrongAnsweredQuestions);
     }
 
     protected function handleRightAnswer(): void
     {
         parent::handleRightAnswer();
-        $this->rightAnsweredQuestions[] = $this->currentQuestion;
+        $this->correctAnsweredQuestions[] = $this->currentQuestion;
     }
 
     protected function handleWrongAnswer(): void

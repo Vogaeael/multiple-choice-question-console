@@ -7,22 +7,25 @@ class Question implements QuestionInterface
     private string $question;
     /** @var string[] $wrongAnswers */
     private array $wrongAnswers;
-    private string $rightAnswer;
+    private string $correctAnswer;
     private int $howOftenWrongAnswered;
-    private int $howOftenRightAnswered;
+    private int $howOftenCorrectAnswered;
 
+    /**
+     * @param string[] $wrongAnswers
+     */
     public function __construct(
         string $question,
         array $wrongAnswers,
-        string $rightAnswer,
+        string $correctAnswer,
         int $wrongAnswered = 0,
-        int $rightAnswered = 0
+        int $correctAnswered = 0
     ) {
         $this->question = $question;
         $this->wrongAnswers = $wrongAnswers;
-        $this->rightAnswer = $rightAnswer;
+        $this->correctAnswer = $correctAnswer;
         $this->howOftenWrongAnswered = $wrongAnswered;
-        $this->howOftenRightAnswered = $rightAnswered;
+        $this->howOftenCorrectAnswered = $correctAnswered;
     }
 
     /**
@@ -44,9 +47,9 @@ class Question implements QuestionInterface
     /**
      * @return string
      */
-    public function getRightAnswer(): string
+    public function getCorrectAnswer(): string
     {
-        return $this->rightAnswer;
+        return $this->correctAnswer;
     }
 
     public function increaseWrongAnswered(): void
@@ -54,14 +57,14 @@ class Question implements QuestionInterface
         $this->howOftenWrongAnswered++;
     }
 
-    public function increaseRightAnswered(): void
+    public function increaseCorrectAnswered(): void
     {
-        $this->howOftenRightAnswered++;
+        $this->howOftenCorrectAnswered++;
     }
 
-    public function getHowOftenRightAnswered(): int
+    public function getHowOftenCorrectAnswered(): int
     {
-        return $this->howOftenRightAnswered;
+        return $this->howOftenCorrectAnswered;
     }
 
     public function getHowOftenWrongAnswered(): int
@@ -71,6 +74,6 @@ class Question implements QuestionInterface
 
     public function howOftenAnswered(): int
     {
-        return $this->howOftenRightAnswered + $this->howOftenWrongAnswered;
+        return $this->howOftenCorrectAnswered + $this->howOftenWrongAnswered;
     }
 }

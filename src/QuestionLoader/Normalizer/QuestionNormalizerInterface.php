@@ -9,7 +9,7 @@ interface QuestionNormalizerInterface
      *     questions: array<int, array{
      *          questionText: string,
      *          wrongAnswers: string|array<int, string>,
-     *          rightAnswer: string
+     *          correctAnswer: string
      *     }>
      * }
      */

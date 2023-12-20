@@ -16,7 +16,7 @@
                             <xs:element name="wrongAnswers"
                                         type="xs:string"
                                         maxOccurs="unbounded"/>
-                            <xs:element name="rightAnswer"
+                            <xs:element name="correctAnswer"
                                         type="xs:string"/>
                         </xs:sequence>
                     </xs:complexType>

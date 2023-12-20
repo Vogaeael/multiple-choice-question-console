@@ -17,13 +17,13 @@ interface QuestionInterface
     /**
      * @return string
      */
-    public function getRightAnswer(): string;
+    public function getCorrectAnswer(): string;
 
     public function increaseWrongAnswered(): void;
 
-    public function increaseRightAnswered(): void;
+    public function increaseCorrectAnswered(): void;
 
-    public function getHowOftenRightAnswered(): int;
+    public function getHowOftenCorrectAnswered(): int;
 
     public function getHowOftenWrongAnswered(): int;
 

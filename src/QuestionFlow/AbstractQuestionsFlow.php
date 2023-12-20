@@ -19,7 +19,7 @@ abstract class AbstractQuestionsFlow implements QuestionFlowInterface
 
     /** @var array<string, string> $possibleAnswers */
     protected array $possibleAnswers;
-    protected string $rightAnswerKey;
+    protected string $correctAnswerKey;
 
     protected bool $doExit = false;
 
@@ -79,7 +79,7 @@ abstract class AbstractQuestionsFlow implements QuestionFlowInterface
             }
             $finishedQuestion = true;
 
-            if ($answer === $this->rightAnswerKey) {
+            if ($answer === $this->correctAnswerKey) {
                 $this->handleRightAnswer();
                 continue;
             }
@@ -92,7 +92,7 @@ abstract class AbstractQuestionsFlow implements QuestionFlowInterface
 
     protected function handleRightAnswer(): void
     {
-        $this->currentQuestion->increaseRightAnswered();
+        $this->currentQuestion->increaseCorrectAnswered();
     }
 
     protected function handleWrongAnswer(): void
@@ -107,7 +107,7 @@ abstract class AbstractQuestionsFlow implements QuestionFlowInterface
     {
         $possibleAnswersWrapper = $this->answerRandomizer->randomizeAnswers($this->currentQuestion);
         $this->possibleAnswers = $possibleAnswersWrapper['answers'];
-        $this->rightAnswerKey = $possibleAnswersWrapper['rightAnswerKey'];
+        $this->correctAnswerKey = $possibleAnswersWrapper['correctAnswerKey'];
     }
 
     protected function handleCollectionEmptyException(QuestionCollectionEmptyException $exception): void

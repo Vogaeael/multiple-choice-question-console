@@ -13,11 +13,11 @@ class FileQuestionLoader implements QuestionLoaderInterface
 {
     protected const QUESTION_KEY_QUESTION_TEXT = 'questionText';
     protected const QUESTION_KEY_WRONG_ANSWERS = 'wrongAnswers';
-    protected const QUESTION_KEY_RIGHT_ANSWER = 'rightAnswer';
+    protected const QUESTION_KEY_CORRECT_ANSWER = 'correctAnswer';
     protected const REQUIRED_KEYS = [
         self::QUESTION_KEY_QUESTION_TEXT,
         self::QUESTION_KEY_WRONG_ANSWERS,
-        self::QUESTION_KEY_RIGHT_ANSWER
+        self::QUESTION_KEY_CORRECT_ANSWER
     ];
 
     public function __construct(
@@ -80,7 +80,7 @@ class FileQuestionLoader implements QuestionLoaderInterface
                 $question = $this->questionFactory->create(
                     $questionArray[self::QUESTION_KEY_QUESTION_TEXT],
                     $wrongAnswers,
-                    $questionArray[self::QUESTION_KEY_RIGHT_ANSWER]
+                    $questionArray[self::QUESTION_KEY_CORRECT_ANSWER]
                 );
                 $questions->add($question);
             } catch (Exception $e) {

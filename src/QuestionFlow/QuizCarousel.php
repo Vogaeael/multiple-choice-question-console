@@ -13,6 +13,6 @@ class QuizCarousel extends AbstractQuestionsFlow
     protected function handleWrongAnswer(): void
     {
         parent::handleWrongAnswer();
-        $this->output->printIsWrongAnswer($this->rightAnswerKey, $this->possibleAnswers[$this->rightAnswerKey]);
+        $this->output->printIsWrongAnswer($this->correctAnswerKey, $this->possibleAnswers[$this->correctAnswerKey]);
     }
 }

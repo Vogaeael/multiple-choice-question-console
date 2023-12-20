@@ -21,7 +21,7 @@ class AnswerRandomizer
     }
 
     /**
-     * @return array{answers: array<string, string>, rightAnswerKey: string}
+     * @return array{answers: array<string, string>, correctAnswerKey: string}
      * @throws Exception
      */
     public function randomizeAnswers(QuestionInterface $question): array
@@ -33,25 +33,25 @@ class AnswerRandomizer
 
         $answers = [];
         $currentKey = 0;
-        $rightAnswerKey = '';
+        $correctAnswerKey = '';
         foreach ($wrongAnswers as $wrongAnswer) {
             if ($currentKey === $positionRightAnswer) {
-                $rightAnswerKey = $this->alphabet[$currentKey];
-                $answers[$rightAnswerKey] = $question->getRightAnswer();
+                $correctAnswerKey = $this->alphabet[$currentKey];
+                $answers[$correctAnswerKey] = $question->getCorrectAnswer();
                 $currentKey++;
             }
             $answers[$this->alphabet[$currentKey]] = $wrongAnswer;
             $currentKey++;
         }
 
-        if (empty($rightAnswerKey)) {
-            $rightAnswerKey = $this->alphabet[$currentKey];
-            $answers[$rightAnswerKey] = $question->getRightAnswer();
+        if (empty($correctAnswerKey)) {
+            $correctAnswerKey = $this->alphabet[$currentKey];
+            $answers[$correctAnswerKey] = $question->getCorrectAnswer();
         }
 
         return [
             'answers' => $answers,
-            'rightAnswerKey' => $rightAnswerKey,
+            'correctAnswerKey' => $correctAnswerKey,
         ];
     }
 }
