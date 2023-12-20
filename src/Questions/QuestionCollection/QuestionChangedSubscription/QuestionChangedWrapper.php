@@ -12,9 +12,6 @@ class QuestionChangedWrapper implements QuestionInterface
         protected QuestionInterface $question
     ) {}
 
-    /**
-     * @inheritDoc
-     */
     public function getQuestion(): string
     {
         return $this->question->getQuestion();
@@ -28,9 +25,6 @@ class QuestionChangedWrapper implements QuestionInterface
         return $this->question->getWrongAnswers();
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getCorrectAnswer(): string
     {
         return $this->question->getCorrectAnswer();

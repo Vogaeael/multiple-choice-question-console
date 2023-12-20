@@ -4,19 +4,13 @@ namespace Vogaeael\MultipleChoiceQuestionConsole\Questions;
 
 interface QuestionInterface
 {
-    /**
-     * @return string
-     */
     public function getQuestion(): string;
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getWrongAnswers(): array;
 
-    /**
-     * @return string
-     */
     public function getCorrectAnswer(): string;
 
     public function increaseWrongAnswered(): void;

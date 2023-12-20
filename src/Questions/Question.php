@@ -28,25 +28,19 @@ class Question implements QuestionInterface
         $this->howOftenCorrectAnswered = $correctAnswered;
     }
 
-    /**
-     * @return string
-     */
     public function getQuestion(): string
     {
         return $this->question;
     }
 
     /**
-     * @return array
+     * @inheritDoc
      */
     public function getWrongAnswers(): array
     {
         return $this->wrongAnswers;
     }
 
-    /**
-     * @return string
-     */
     public function getCorrectAnswer(): string
     {
         return $this->correctAnswer;
