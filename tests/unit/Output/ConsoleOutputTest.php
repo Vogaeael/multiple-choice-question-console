@@ -62,12 +62,12 @@ class ConsoleOutputTest extends TestCase
 
     public function testPrintIsWrongAnswer(): void
     {
-        $rightAnswerKey = 'c';
-        $rightAnswer = 'This is the correct answer';
+        $correctAnswerKey = 'c';
+        $correctAnswer = 'This is the correct answer';
         $expect = "\033[0;31mThat is wrong!! The correct answer would be c\033[0m" . PHP_EOL . PHP_EOL;
         $this->expectOutputString($expect);
 
-        $this->output->printIsWrongAnswer($rightAnswerKey, $rightAnswer);
+        $this->output->printIsWrongAnswer($correctAnswerKey, $correctAnswer);
     }
 
     /**
