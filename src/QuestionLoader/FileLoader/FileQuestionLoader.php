@@ -1,10 +1,12 @@
 <?php
 
-namespace Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader;
+namespace Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader\FileLoader;
 
 
 use Exception;
+use Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader\ArrayToQuestionInQuestionCollectionTransformer;
 use Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader\Normalizer\QuestionNormalizerInterface;
+use Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader\QuestionLoaderInterface;
 use Vogaeael\MultipleChoiceQuestionConsole\Questions\QuestionCollection\QuestionCollectionInterface;
 
 class FileQuestionLoader implements QuestionLoaderInterface

@@ -1,6 +1,6 @@
 <?php
 
-namespace Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader;
+namespace Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader\FileLoader;
 
 use Exception;
 

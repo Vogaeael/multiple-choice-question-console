@@ -6,10 +6,10 @@ use Vogaeael\MultipleChoiceQuestionConsole\AnswerRandomizer;
 use Vogaeael\MultipleChoiceQuestionConsole\Input\ConsoleInput;
 use Vogaeael\MultipleChoiceQuestionConsole\Output\ConsoleOutput;
 use Vogaeael\MultipleChoiceQuestionConsole\QuestionFlow\QuestionFlowFactory;
-use Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader\FileQuestionLoader;
+use Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader\FileLoader\FileQuestionLoader;
 use Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader\Normalizer\JsonQuestionNormalizer;
-use Vogaeael\MultipleChoiceQuestionConsole\Questions\QuestionFactory;
 use Vogaeael\MultipleChoiceQuestionConsole\Questions\QuestionCollection\QuestionCollectionFactory;
+use Vogaeael\MultipleChoiceQuestionConsole\Questions\QuestionFactory;
 
 $jsonFileQuestionsLoader = new FileQuestionLoader(new QuestionCollectionFactory(), new QuestionFactory(), new JsonQuestionNormalizer());
 $consoleOutput = new ConsoleOutput();
