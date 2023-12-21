@@ -74,4 +74,20 @@ class ArrayToQuestionTransformerTest extends TestCase
 
         $this->assertSame($question, $actual);
     }
+
+    public function testTransformWithOnlyOneWrongAnswer(): void
+    {
+        $question = $this->createMock(Question::class);
+        $this->factory->method('create')
+            ->with('Is this question one?', ['wrong answer a.'], 'correct answer.')
+            ->willReturn($question);
+
+        $actual = $this->questionTransformer->transform([
+            'questionText' => 'Is this question one?',
+            'wrongAnswers' => 'wrong answer a.',
+            'correctAnswer' => 'correct answer.'
+        ]);
+
+        $this->assertSame($question, $actual);
+    }
 }
