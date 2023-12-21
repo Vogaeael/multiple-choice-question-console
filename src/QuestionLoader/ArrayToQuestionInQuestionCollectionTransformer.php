@@ -3,6 +3,7 @@
 namespace Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader;
 
 use Exception;
+use Vogaeael\MultipleChoiceQuestionConsole\Output\OutputInterface;
 use Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader\Normalizer\QuestionNormalizerInterface;
 use Vogaeael\MultipleChoiceQuestionConsole\Questions\QuestionCollection\QuestionCollectionFactory;
 use Vogaeael\MultipleChoiceQuestionConsole\Questions\QuestionCollection\QuestionCollectionInterface;
@@ -21,7 +22,8 @@ class ArrayToQuestionInQuestionCollectionTransformer
 
     public function __construct(
         protected readonly QuestionCollectionFactory $questionCollectionFactory,
-        protected readonly QuestionFactory $questionFactory
+        protected readonly QuestionFactory $questionFactory,
+        protected readonly OutputInterface $output
     ) {}
 
     /**
@@ -48,7 +50,7 @@ class ArrayToQuestionInQuestionCollectionTransformer
                 );
                 $questions->add($question);
             } catch (Exception $e) {
-                echo $e->getMessage() . PHP_EOL;
+                $this->output->error($e);
                 continue;
             }
         }

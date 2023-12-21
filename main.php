@@ -13,8 +13,8 @@ use Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader\Normalizer\JsonQuestio
 use Vogaeael\MultipleChoiceQuestionConsole\Questions\QuestionCollection\QuestionCollectionFactory;
 use Vogaeael\MultipleChoiceQuestionConsole\Questions\QuestionFactory;
 
-$jsonFileQuestionsLoader = new FileQuestionLoader(new FileContentLoader(), new JsonQuestionNormalizer(), new ArrayToQuestionInQuestionCollectionTransformer(new QuestionCollectionFactory(), new QuestionFactory()));
 $consoleOutput = new ConsoleOutput();
+$jsonFileQuestionsLoader = new FileQuestionLoader(new FileContentLoader(), new JsonQuestionNormalizer(), new ArrayToQuestionInQuestionCollectionTransformer(new QuestionCollectionFactory(), new QuestionFactory(), $consoleOutput));
 $answerRandomizer = new AnswerRandomizer();
 $input = new ConsoleInput();
 $questionFlowFactory = new QuestionFlowFactory();
