@@ -21,8 +21,7 @@ class ArrayToQuestionInQuestionCollectionTransformer
 
     public function __construct(
         protected readonly QuestionCollectionFactory $questionCollectionFactory,
-        protected readonly QuestionFactory $questionFactory,
-        protected readonly QuestionNormalizerInterface $normalizer
+        protected readonly QuestionFactory $questionFactory
     ) {}
 
     /**
