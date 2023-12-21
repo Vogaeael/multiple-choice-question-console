@@ -6,7 +6,8 @@ use Vogaeael\MultipleChoiceQuestionConsole\AnswerRandomizer;
 use Vogaeael\MultipleChoiceQuestionConsole\Input\ConsoleInput;
 use Vogaeael\MultipleChoiceQuestionConsole\Output\ConsoleOutput;
 use Vogaeael\MultipleChoiceQuestionConsole\QuestionFlow\QuestionFlowFactory;
-use Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader\ArrayToQuestionInQuestionCollectionTransformer;
+use Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader\ArrayToQuestionCollectionTransformer;
+use Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader\ArrayToQuestionTransformer;
 use Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader\FileLoader\FileContentLoader;
 use Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader\FileLoader\FileQuestionLoader;
 use Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader\Normalizer\JsonQuestionNormalizer;
@@ -14,7 +15,7 @@ use Vogaeael\MultipleChoiceQuestionConsole\Questions\QuestionCollection\Question
 use Vogaeael\MultipleChoiceQuestionConsole\Questions\QuestionFactory;
 
 $consoleOutput = new ConsoleOutput();
-$jsonFileQuestionsLoader = new FileQuestionLoader(new FileContentLoader(), new JsonQuestionNormalizer(), new ArrayToQuestionInQuestionCollectionTransformer(new QuestionCollectionFactory(), new QuestionFactory(), $consoleOutput));
+$jsonFileQuestionsLoader = new FileQuestionLoader(new FileContentLoader(), new JsonQuestionNormalizer(), new ArrayToQuestionCollectionTransformer(new QuestionCollectionFactory(), new ArrayToQuestionTransformer(new QuestionFactory()), $consoleOutput));
 $answerRandomizer = new AnswerRandomizer();
 $input = new ConsoleInput();
 $questionFlowFactory = new QuestionFlowFactory();

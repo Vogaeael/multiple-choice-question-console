@@ -4,7 +4,7 @@ namespace unit\QuestionLoader\FileLoader;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader\ArrayToQuestionInQuestionCollectionTransformer;
+use Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader\ArrayToQuestionCollectionTransformer;
 use Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader\FileLoader\FileContentLoader;
 use Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader\FileLoader\FileQuestionLoader;
 use Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader\Normalizer\QuestionNormalizerInterface;
@@ -14,7 +14,7 @@ class FileQuestionLoaderTest extends TestCase
 {
     protected FileContentLoader & MockObject $fileContentLoader;
     protected QuestionNormalizerInterface & MockObject $normalizer;
-    protected ArrayToQuestionInQuestionCollectionTransformer & MockObject $transformer;
+    protected ArrayToQuestionCollectionTransformer & MockObject $transformer;
     protected QuestionCollectionInterface & MockObject $questionCollection;
     protected FileQuestionLoader $fileQuestionLoader;
 
@@ -22,7 +22,7 @@ class FileQuestionLoaderTest extends TestCase
     {
         $this->fileContentLoader = $this->createMock(FileContentLoader::class);
         $this->normalizer = $this->createMock(QuestionNormalizerInterface::class);
-        $this->transformer = $this->createMock(ArrayToQuestionInQuestionCollectionTransformer::class);
+        $this->transformer = $this->createMock(ArrayToQuestionCollectionTransformer::class);
         $this->questionCollection = $this->createMock(QuestionCollectionInterface::class);
 
         $this->fileQuestionLoader = new FileQuestionLoader($this->fileContentLoader, $this->normalizer, $this->transformer);
@@ -56,7 +56,7 @@ class FileQuestionLoaderTest extends TestCase
         $this->normalizer->method('normalize')
             ->with($contentOfFile)
             ->willReturn($questionsArray);
-        $this->transformer->method('transformToQuestions')
+        $this->transformer->method('transformToQuestionsCollection')
             ->with($questionsArray, $type)
             ->willReturn($this->questionCollection);
 
