@@ -3,6 +3,9 @@
 namespace Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader\FileLoader;
 
 use Exception;
+use Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader\FileLoader\Exceptions\FileDoesNotExistException;
+use Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader\FileLoader\Exceptions\FileIsADirectoryException;
+use Vogaeael\MultipleChoiceQuestionConsole\QuestionLoader\FileLoader\Exceptions\FileIsNotReadableException;
 
 class FileContentLoader
 {
@@ -22,13 +25,13 @@ class FileContentLoader
     protected function validateFileExistAndReadable(string $path): void
     {
         if (!file_exists($path)) {
-            throw new Exception(sprintf('File `%s` does not exist', $path));
+            throw new FileDoesNotExistException(sprintf('File `%s` does not exist', $path));
         }
         if (!is_file($path)) {
-            throw new Exception(sprintf('`%s` is not a file', $path));
+            throw new FileIsADirectoryException(sprintf('`%s` is not a file', $path));
         }
         if (!is_readable($path)) {
-            throw new Exception(sprintf('File `%s` is not readable', $path));
+            throw new FileIsNotReadableException(sprintf('File `%s` is not readable', $path));
         }
     }
 }
