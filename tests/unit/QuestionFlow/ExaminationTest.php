@@ -100,44 +100,67 @@ class ExaminationTest extends TestCase
      * @throws Exception
      */
     #[DataProvider('questionsDataProvider')]
-    public function testRightAnswer(array $questionsArray): void
+    public function testCorrectAnswer(array $questionsArray): void
     {
-        // @TODO improve for multiple questions
-        $questions = [];
-        foreach ($questionsArray as $key => $questionArray) {
-            $question = $this->createMock(Question::class);
-            $question->method('getQuestion')
-                ->willReturn($questionArray['question']);
-            // @TODO not last one
-            $question->expects($this->once())
-                ->method('increaseCorrectAnswered');
-            $questions[] = $question;
-        }
+        $firstKey = array_keys($questionsArray)[0];
+        $secondKey = array_keys($questionsArray)[1];
+        $questionArray = $questionsArray[$firstKey];
+        $nextQuestionArray = $questionsArray[$secondKey];
+
+        $question = $this->createMock(Question::class);
+        $question->method('getQuestion')
+            ->willReturn($questionArray['question']);
+        $question->expects($this->once())
+            ->method('increaseCorrectAnswered');
+        $question->expects($this->never())
+            ->method('increaseWrongAnswered');
+
+        $nextQuestion = $this->createMock(Question::class);
+        $nextQuestion->method('getQuestion')
+            ->willReturn($nextQuestionArray['question']);
+        $nextQuestion->expects($this->never())
+            ->method('increaseCorrectAnswered');
+        $nextQuestion->expects($this->never())
+            ->method('increaseWrongAnswered');
 
         $this->answerRandomizer->method('randomizeAnswers')
-            ->with([$question])
-            ->willReturn([
-                'answers' => $questionArray['answers'],
-                'correctAnswerKey' => $questionArray['correctAnswer'],
+            ->willReturnMap([
+                [
+                    $question,
+                    [
+                        'answers' => $questionArray['answers'],
+                        'correctAnswerKey' => $questionArray['correctAnswer'],
+                    ],
+                ],
+                [
+                    $nextQuestion,
+                    [
+                        'answers' => $nextQuestionArray['answers'],
+                        'correctAnswerKey' => $nextQuestionArray['correctAnswer'],
+                    ],
+                ],
             ]);
+
         $this->questionCollection->expects($this->exactly(2))
             ->method('getNext')
-            ->willReturn(...$questions);
+            ->willReturn($question, $nextQuestion);
+
         $this->output->expects($this->exactly(2))
             ->method('printQuestion')
-            ->with([$questionArray['question']]);   // @TODO change for following params
+            ->willReturnCallback(function(string $question) {
+                $this->isOneOfQuestions($question);
+            });
         $this->output->expects($this->exactly(2))
             ->method('printPossibleAnswers')
-            ->with([$questionArray['answers']]);    // @TODO change for following params
+            ->willReturnCallback(function(array $possibleAnswers) {
+                $this->isOneOfPossibleAnswerArrays($possibleAnswers);
+            });
         $this->output->expects($this->once())
             ->method('printTotalResult')
-            ->with([[], []]);   // @TODO add correct answers
+            ->with([$question], []);
         $this->input->expects($this->exactly(2))
             ->method('getAnswer')
-            ->willReturnOnConsecutiveCalls([$questionArray['correctAnswer'], 'exit']);
-
-
-        $this->markTestIncomplete('This test has not been implemented.');
+            ->willReturnOnConsecutiveCalls($questionArray['correctAnswer'], 'exit');
 
         $this->examination->run($this->questionCollection);
     }
