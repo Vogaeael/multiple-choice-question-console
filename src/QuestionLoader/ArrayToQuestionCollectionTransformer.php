@@ -16,6 +16,14 @@ class ArrayToQuestionCollectionTransformer
     ) {}
 
     /**
+     * @param array{
+     *      questions: array<int, array{
+     *           questionText: string,
+     *           wrongAnswers: string|array<int, string>,
+     *           correctAnswer: string
+     *      }>
+     *  } $questionsArray
+     *
      * @throws Exception
      */
     public function transformToQuestionsCollection(array $questionsArray, string $collectionType): QuestionCollectionInterface {
