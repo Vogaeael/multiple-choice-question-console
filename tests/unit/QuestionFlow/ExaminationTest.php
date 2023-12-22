@@ -165,7 +165,86 @@ class ExaminationTest extends TestCase
         $this->examination->run($this->questionCollection);
     }
 
-    public function testWrongAnswer(): void
+    /**
+     * @param array<string, array{question: string, correctAnswer: string, answers: array<string, string>}> $questionArray
+     *
+     * @throws Exception
+     */
+    #[DataProvider('questionsDataProvider')]
+    public function testWrongAnswer(array $questionsArray): void
+    {
+        $firstKey = array_keys($questionsArray)[0];
+        $secondKey = array_keys($questionsArray)[1];
+        $questionArray = $questionsArray[$firstKey];
+        $nextQuestionArray = $questionsArray[$secondKey];
+
+        $question = $this->createMock(Question::class);
+        $question->method('getQuestion')
+            ->willReturn($questionArray['question']);
+        $question->expects($this->never())
+            ->method('increaseCorrectAnswered');
+        $question->expects($this->once())
+            ->method('increaseWrongAnswered');
+
+        $nextQuestion = $this->createMock(Question::class);
+        $nextQuestion->method('getQuestion')
+            ->willReturn($nextQuestionArray['question']);
+        $nextQuestion->expects($this->never())
+            ->method('increaseCorrectAnswered');
+        $nextQuestion->expects($this->never())
+            ->method('increaseWrongAnswered');
+
+        $this->answerRandomizer->method('randomizeAnswers')
+            ->willReturnMap([
+                [
+                    $question,
+                    [
+                        'answers' => $questionArray['answers'],
+                        'correctAnswerKey' => $questionArray['correctAnswer'],
+                    ],
+                ],
+                [
+                    $nextQuestion,
+                    [
+                        'answers' => $nextQuestionArray['answers'],
+                        'correctAnswerKey' => $nextQuestionArray['correctAnswer'],
+                    ],
+                ],
+            ]);
+
+        $this->questionCollection->expects($this->exactly(2))
+            ->method('getNext')
+            ->willReturn($question, $nextQuestion);
+
+        $this->output->expects($this->exactly(2))
+            ->method('printQuestion')
+            ->willReturnCallback(function(string $question) {
+                $this->isOneOfQuestions($question);
+            });
+        $this->output->expects($this->exactly(2))
+            ->method('printPossibleAnswers')
+            ->willReturnCallback(function(array $possibleAnswers) {
+                $this->isOneOfPossibleAnswerArrays($possibleAnswers);
+            });
+        $this->output->expects($this->once())
+            ->method('printTotalResult')
+            ->with([], [$question]);
+
+        $wrongAnswerKey = '';
+        foreach (array_keys($questionArray['answers']) as $key) {
+            if ($key !== $questionArray['correctAnswer']) {
+                $wrongAnswerKey = $key;
+                break;
+            }
+        }
+        $this->input->expects($this->exactly(2))
+            ->method('getAnswer')
+            ->willReturnOnConsecutiveCalls($wrongAnswerKey, 'exit');
+
+        $this->examination->run($this->questionCollection);
+    }
+
+    public function testMultipleQuestions(): void
     {
         $this->markTestIncomplete('This test has not been implemented.');
         // @TODO
