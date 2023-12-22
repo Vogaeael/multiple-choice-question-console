@@ -250,10 +250,80 @@ class ExaminationTest extends TestCase
         // @TODO
     }
 
-    public function testNotPossibleAnswer(): void
+    /**
+     * @param array<string, array{question: string, correctAnswer: string, answers: array<string, string>}> $questionArray
+     *
+     * @throws Exception
+     */
+    #[DataProvider('questionsDataProvider')]
+    public function testNotPossibleAnswer(array $questionsArray): void
     {
-        $this->markTestIncomplete('This test has not been implemented.');
-        // @TODO
+        $firstKey = array_keys($questionsArray)[0];
+        $secondKey = array_keys($questionsArray)[1];
+        $questionArray = $questionsArray[$firstKey];
+        $nextQuestionArray = $questionsArray[$secondKey];
+
+        $question = $this->createMock(Question::class);
+        $question->method('getQuestion')
+            ->willReturn($questionArray['question']);
+        $question->expects($this->once())
+            ->method('increaseCorrectAnswered');
+        $question->expects($this->never())
+            ->method('increaseWrongAnswered');
+
+        $nextQuestion = $this->createMock(Question::class);
+        $nextQuestion->method('getQuestion')
+            ->willReturn($nextQuestionArray['question']);
+        $nextQuestion->expects($this->never())
+            ->method('increaseCorrectAnswered');
+        $nextQuestion->expects($this->never())
+            ->method('increaseWrongAnswered');
+
+        $this->answerRandomizer->method('randomizeAnswers')
+            ->willReturnMap([
+                [
+                    $question,
+                    [
+                        'answers' => $questionArray['answers'],
+                        'correctAnswerKey' => $questionArray['correctAnswer'],
+                    ],
+                ],
+                [
+                    $nextQuestion,
+                    [
+                        'answers' => $nextQuestionArray['answers'],
+                        'correctAnswerKey' => $nextQuestionArray['correctAnswer'],
+                    ],
+                ],
+            ]);
+
+        $this->questionCollection->expects($this->exactly(2))
+            ->method('getNext')
+            ->willReturn($question, $nextQuestion);
+
+        $this->output->expects($this->exactly(2))
+            ->method('printQuestion')
+            ->willReturnCallback(function(string $question) {
+                $this->isOneOfQuestions($question);
+            });
+        $this->output->expects($this->exactly(2))
+            ->method('printPossibleAnswers')
+            ->willReturnCallback(function(array $possibleAnswers) {
+                $this->isOneOfPossibleAnswerArrays($possibleAnswers);
+            });
+        $this->output->expects($this->once())
+            ->method('printTotalResult')
+            ->with([$question], []);
+        $this->output->expects($this->once())
+            ->method('printNotPossibleAnswer')
+            ->with('not-possible-answer', $questionArray['answers']);
+
+
+        $this->input->expects($this->exactly(3))
+            ->method('getAnswer')
+            ->willReturnOnConsecutiveCalls('not-possible-answer', $questionArray['correctAnswer'], 'exit');
+
+        $this->examination->run($this->questionCollection);
     }
 
     public function testRunEndWithExit(): void
@@ -266,5 +336,38 @@ class ExaminationTest extends TestCase
     {
         $this->markTestIncomplete('This test has not been implemented.');
         // @TODO
+    }
+
+    /**
+     * @param array<string, string> $toCheck
+     */
+    protected function isOneOfPossibleAnswerArrays(array $toCheck): void
+    {
+        foreach (static::QUESTIONS as $dataPack) {
+            foreach ($dataPack as $question) {
+                foreach ($question['answers'] as $key => $answer) {
+                    if ($answer !== $toCheck[$key]) {
+                        break;
+                    }
+                }
+
+                return;
+            }
+        }
+
+        $this->fail('Is not one of the possible answer lists');
+    }
+
+    protected function isOneOfQuestions(string $toCheck): void
+    {
+        foreach (static::QUESTIONS as $dataPack) {
+            foreach ($dataPack as $question) {
+                if ($question['question'] === $toCheck) {
+                    return;
+                }
+            }
+        }
+
+        $this->fail(sprintf('`%s` is not one of the questions', $toCheck));
     }
 }
