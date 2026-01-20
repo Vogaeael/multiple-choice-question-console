@@ -74,11 +74,24 @@ class ExaminationTest extends TestCase
     static public function questionsDataProvider(): array
     {
         $questions = [];
-        foreach (static::QUESTIONS as$question) {
+        foreach (static::QUESTIONS as $question) {
             $questions[] = [$question];
         }
 
         return $questions;
+    }
+
+    /**
+     * @return array<int, array<string, array<int, array<string, array{question: string, correctAnswer: string, answers: array<string, string>}>>>>
+     */
+    static public function allQuestionsDataProvider(): array
+    {
+        $questions = [];
+        foreach (static::QUESTIONS as $question) {
+            $question[] = $question;
+        }
+
+        return [$questions];
     }
 
     /**
@@ -95,7 +108,7 @@ class ExaminationTest extends TestCase
     }
 
     /**
-     * @param array<string, array{question: string, correctAnswer: string, answers: array<string, string>}> $questionArray
+     * @param array<string, array{question: string, correctAnswer: string, answers: array<string, string>}> $questionsArray
      *
      * @throws Exception
      */
@@ -166,7 +179,7 @@ class ExaminationTest extends TestCase
     }
 
     /**
-     * @param array<string, array{question: string, correctAnswer: string, answers: array<string, string>}> $questionArray
+     * @param array<string, array{question: string, correctAnswer: string, answers: array<string, string>}> $questionsArray
      *
      * @throws Exception
      */
@@ -244,8 +257,33 @@ class ExaminationTest extends TestCase
         $this->examination->run($this->questionCollection);
     }
 
-    public function testMultipleQuestions(): void
+    /**
+     * @param array<string, array{question: string, correctAnswer: string, answers: array<string, string>}> $questionsArray
+     *
+     * @throws Exception
+     */
+    #[DataProvider('allQuestionsDataProvider')]
+    public function testMultipleQuestions(array $questionsArray): void
     {
+        $firstKey = array_keys($questionsArray)[0];
+        $secondKey = array_keys($questionsArray)[1];
+        $thirdKey = array_keys($questionsArray)[2];
+        $fourthKey = array_keys($questionsArray)[3];
+        $firstQuestionArray = $questionsArray[$firstKey];
+        $secondQuestionArray = $questionsArray[$secondKey];
+        $thirdQuestionArray = $questionsArray[$thirdKey];
+        $fourthQuestionArray = $questionsArray[$fourthKey];
+
+        $question = $this->createMock(Question::class);
+        $question->method('getQuestion')
+            ->willReturn($firstQuestionArray['question']);
+        $question->expects($this->never())
+            ->method('increaseCorrectAnswered');
+        $question->expects($this->once())
+            ->method('increaseWrongAnswered');
+        // @TODO 1 right, one wrong 1 right again
+
+
         $this->markTestIncomplete('This test has not been implemented.');
         // @TODO
     }
@@ -324,12 +362,6 @@ class ExaminationTest extends TestCase
             ->willReturnOnConsecutiveCalls('not-possible-answer', $questionArray['correctAnswer'], 'exit');
 
         $this->examination->run($this->questionCollection);
-    }
-
-    public function testRunEndWithExit(): void
-    {
-        $this->markTestIncomplete('This test has not been implemented.');
-        // @TODO
     }
 
     public function testRunEndWithAllUsed(): void

@@ -1,0 +1,20 @@
+name: PHPUnit
+
+on: [pull_request]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: php-actions/composer@v6
+
+      - name: PHPUnit Tests
+        uses: php-actions/phpunit@v3
+        with:
+          version: 10
+          php_extension: xdebug
+          configuration: tests/phpunit.xml
+        env:
+          XDEBUG_MODE: coverage
